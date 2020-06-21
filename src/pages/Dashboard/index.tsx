@@ -62,7 +62,7 @@ const Dashboard: React.FC = () => {
       const response = await api.get<Food[]>('foods', {
         params: {
           name_like: searchValue,
-          category: selectedCategory,
+          category_like: selectedCategory,
         },
       });
 

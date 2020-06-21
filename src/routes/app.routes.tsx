@@ -2,12 +2,13 @@ import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 import { NavigationContainer } from '@react-navigation/native';
 
-import { View } from 'react-native';
 import Icon from 'react-native-vector-icons/Feather';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 import TabRoutes from './tab.routes';
 
 import Home from '../pages/Home';
 import FoodDetails from '../pages/FoodDetails';
+import OrderDetails from '../pages/OrderDetails';
 
 const App = createStackNavigator();
 
@@ -35,12 +36,9 @@ const AppRoutes: React.FC = () => (
         component={FoodDetails}
         options={({ navigation }) => ({
           headerLeft: () => (
-            <Icon
-              name="arrow-left"
-              size={24}
-              color="#FFB84D"
-              onPress={() => navigation.goBack()}
-            />
+            <TouchableOpacity onPress={() => navigation.goBack()}>
+              <Icon name="arrow-left" size={24} color="#FFB84D" />
+            </TouchableOpacity>
           ),
           headerLeftContainerStyle: {
             marginLeft: 24,
@@ -50,6 +48,32 @@ const AppRoutes: React.FC = () => (
             marginRight: 24,
           },
           headerTitle: 'Prato - Massas',
+          headerTitleStyle: {
+            color: '#fff',
+            fontFamily: 'Poppins-Regular',
+            fontSize: 16,
+          },
+          headerStyle: {
+            backgroundColor: '#C72828',
+            elevation: 0,
+            borderWidth: 0,
+            shadowColor: 'transparent',
+          },
+        })}
+      />
+      <App.Screen
+        name="OrderDetails"
+        component={OrderDetails}
+        options={({ navigation }) => ({
+          headerLeft: () => (
+            <TouchableOpacity onPress={() => navigation.goBack()}>
+              <Icon name="arrow-left" size={24} color="#FFB84D" />
+            </TouchableOpacity>
+          ),
+          headerLeftContainerStyle: {
+            marginLeft: 24,
+          },
+          headerTitle: 'Meu pedido - Detalhes',
           headerTitleStyle: {
             color: '#fff',
             fontFamily: 'Poppins-Regular',

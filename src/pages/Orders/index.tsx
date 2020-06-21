@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
+import { useNavigation } from '@react-navigation/native';
 import { Image } from 'react-native';
 
 import api from '../../services/api';
@@ -30,6 +31,8 @@ interface Food {
 const Orders: React.FC = () => {
   const [orders, setOrders] = useState<Food[]>([]);
 
+  const navigation = useNavigation();
+
   useEffect(() => {
     async function loadOrders(): Promise<void> {
       const response = await api.get<Food[]>('orders');
@@ -47,6 +50,13 @@ const Orders: React.FC = () => {
     loadOrders();
   }, []);
 
+  const handleOpenOrderDetails = useCallback(
+    (id: number) => {
+      navigation.navigate('OrderDetails', { id });
+    },
+    [navigation],
+  );
+
   return (
     <Container>
       <Header>
@@ -58,7 +68,11 @@ const Orders: React.FC = () => {
           data={orders}
           keyExtractor={item => String(item.id)}
           renderItem={({ item }) => (
-            <Food key={item.id} activeOpacity={0.6}>
+            <Food
+              key={item.id}
+              activeOpacity={0.6}
+              onPress={() => handleOpenOrderDetails(item.id)}
+            >
               <FoodImageContainer>
                 <Image
                   style={{ width: 88, height: 88 }}
