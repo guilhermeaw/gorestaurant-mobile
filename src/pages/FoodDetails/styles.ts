@@ -156,6 +156,28 @@ export const FinishOrderButton = styled.TouchableOpacity`
   margin-top: 26px;
 `;
 
+export const OrderFinishedModalWrapper = styled.TouchableOpacity`
+  flex: 1;
+  justify-content: center;
+  align-items: center;
+
+  background: rgba(0, 0, 0, 0.9);
+`;
+
+export const OrderFinishedModal = styled.Modal`
+  flex: 1;
+
+  justify-content: center;
+  align-items: center;
+`;
+
+export const OrderFinishedModalText = styled.Text`
+  font-size: 24px;
+  line-height: 28px;
+  margin-top: 24px;
+  color: #fff;
+`;
+
 export const ButtonText = styled.Text`
   font-weight: 600;
   font-size: 15px;

@@ -35,6 +35,9 @@ import {
   TotalPrice,
   QuantityContainer,
   FinishOrderButton,
+  OrderFinishedModalWrapper,
+  OrderFinishedModal,
+  OrderFinishedModalText,
   ButtonText,
   IconContainer,
 } from './styles';
@@ -65,6 +68,7 @@ const FoodDetails: React.FC = () => {
   const [extras, setExtras] = useState<Extra[]>([]);
   const [isFavorite, setIsFavorite] = useState(false);
   const [foodQuantity, setFoodQuantity] = useState(1);
+  const [isOrderFinished, setIsOrderFinished] = useState(false);
 
   const navigation = useNavigation();
   const route = useRoute();
@@ -124,6 +128,15 @@ const FoodDetails: React.FC = () => {
     }
   }
 
+  const toggleOrderFinishedModal = useCallback(() => {
+    setIsOrderFinished(!isOrderFinished);
+  }, [isOrderFinished]);
+
+  const handleCloseOrderFinishedModal = useCallback(() => {
+    toggleOrderFinishedModal();
+    navigation.goBack();
+  }, [navigation, toggleOrderFinishedModal]);
+
   const toggleFavorite = useCallback(async () => {
     if (!isFavorite) {
       await api.post('favorites', food);
@@ -162,6 +175,8 @@ const FoodDetails: React.FC = () => {
     delete order.id;
 
     await api.post('orders', order);
+
+    toggleOrderFinishedModal();
   }
 
   // Calculate the correct icon name
@@ -257,6 +272,19 @@ const FoodDetails: React.FC = () => {
               />
             </QuantityContainer>
           </PriceButtonContainer>
+
+          <OrderFinishedModal
+            transparent
+            visible={isOrderFinished}
+            onRequestClose={handleCloseOrderFinishedModal}
+          >
+            <OrderFinishedModalWrapper onPress={handleCloseOrderFinishedModal}>
+              <Icon name="thumbs-up" color="#39b100" size={40} />
+              <OrderFinishedModalText>
+                Pedido confirmado!
+              </OrderFinishedModalText>
+            </OrderFinishedModalWrapper>
+          </OrderFinishedModal>
 
           <FinishOrderButton onPress={() => handleFinishOrder()}>
             <ButtonText>Confirmar pedido</ButtonText>
